@@ -17,6 +17,22 @@ class AppServiceProvider extends ServiceProvider
     {
         // Bind repository interfaces
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
+        $this->app->bind(
+            \App\Repositories\Contracts\ProjectRepositoryInterface::class,
+            \App\Repositories\Eloquent\ProjectRepository::class
+        );
+        $this->app->bind(
+            \App\Repositories\Contracts\TaskRepositoryInterface::class,
+            \App\Repositories\Eloquent\TaskRepository::class
+        );
+        $this->app->bind(
+            \App\Repositories\Contracts\TeamRepositoryInterface::class,
+            \App\Repositories\Eloquent\TeamRepository::class
+        );
+        $this->app->bind(
+            \App\Repositories\Contracts\CommentRepositoryInterface::class,
+            \App\Repositories\Eloquent\CommentRepository::class
+        );
     }
 
     /**
