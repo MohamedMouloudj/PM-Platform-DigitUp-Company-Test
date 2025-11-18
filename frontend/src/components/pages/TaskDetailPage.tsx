@@ -226,11 +226,16 @@ export default function TaskDetailPage() {
                   {task.project_id}
                 </dd>
               </div>
-              {task.assigned_to && (
+              {(task.assigned_to || task.assignedTo) && (
                 <div>
                   <dt className="text-sm text-muted-foreground">Assigned To</dt>
                   <dd className="text-foreground font-medium">
-                    User #{task.assigned_to}
+                    {typeof task.assignedTo === "object" &&
+                    task.assignedTo?.name
+                      ? task.assignedTo.name
+                      : task.assigned_to
+                      ? `User #${task.assigned_to}`
+                      : "Unassigned"}
                   </dd>
                 </div>
               )}

@@ -120,9 +120,15 @@ export default function TasksPage() {
                       Deadline: {new Date(task.deadline).toLocaleDateString()}
                     </span>
                   )}
-                  {task.assigned_to && (
+                  {(task.assigned_to || task.assignedTo) && (
                     <span className="ml-4">
-                      Assigned to: User #{task.assigned_to}
+                      Assigned to:{" "}
+                      {typeof task.assignedTo === "object" &&
+                      task.assignedTo?.name
+                        ? task.assignedTo.name
+                        : task.assigned_to
+                        ? `User #${task.assigned_to}`
+                        : "Unassigned"}
                     </span>
                   )}
                 </div>
