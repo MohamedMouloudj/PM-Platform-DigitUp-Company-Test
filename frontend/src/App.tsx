@@ -18,6 +18,11 @@ import EditProjectPage from "./components/pages/EditProjectPage";
 import TasksPage from "./components/pages/TasksPage";
 import CreateTaskPage from "./components/pages/CreateTaskPage";
 import TaskDetailPage from "./components/pages/TaskDetailPage";
+import TeamsPage from "./components/pages/TeamsPage";
+import CreateTeamPage from "./components/pages/CreateTeamPage";
+import TeamDetailPage from "./components/pages/TeamDetailPage";
+import ProfilePage from "./components/pages/ProfilePage";
+import AllTasksPage from "./components/pages/AllTasksPage";
 
 const queryClient = new QueryClient({
   ...queryConfig,
@@ -55,6 +60,14 @@ const router = createBrowserRouter([
             element: <DashboardHome />,
           },
           {
+            path: "profile",
+            element: <ProfilePage />,
+          },
+          {
+            path: "tasks",
+            element: <AllTasksPage />,
+          },
+          {
             path: "projects",
             element: <ProjectsPage />,
           },
@@ -81,6 +94,18 @@ const router = createBrowserRouter([
           {
             path: "tasks/:taskId",
             element: <TaskDetailPage />,
+          },
+          {
+            path: "teams",
+            element: <TeamsPage />,
+          },
+          {
+            path: "teams/create",
+            element: <CreateTeamPage />,
+          },
+          {
+            path: "teams/:teamId",
+            element: <TeamDetailPage />,
           },
         ],
       },

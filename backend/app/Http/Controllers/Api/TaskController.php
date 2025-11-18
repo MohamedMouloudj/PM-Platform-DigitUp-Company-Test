@@ -24,6 +24,26 @@ class TaskController extends Controller
     ) {}
 
     /**
+     * Get all tasks accessible by the user (across all projects)
+     */
+    public function allTasks(Request $request): JsonResponse
+    {
+        try {
+            $tasks = $this->taskService->getAllUserTasks($request->user());
+
+            return response()->json([
+                'success' => true,
+                'data' => $tasks,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to retrieve tasks',
+            ], 500);
+        }
+    }
+
+    /**
      * Get all tasks for a specific project
      */
     public function index(Request $request, string $projectId): JsonResponse

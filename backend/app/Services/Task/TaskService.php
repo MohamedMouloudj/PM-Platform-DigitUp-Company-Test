@@ -105,6 +105,19 @@ class TaskService
         return $this->taskRepository->getProjectTasks($projectId);
     }
 
+    public function getAllUserTasks(User $user): Collection
+    {
+        // Get all projects the user has access to
+        $projects = $this->projectService->getUserProjects($user);
+        $projectIds = $projects->pluck('id')->toArray();
+
+        // Return tasks from all accessible projects
+        return Task::with(['project', 'assignedTo', 'creator'])
+            ->whereIn('project_id', $projectIds)
+            ->orderBy('created_at', 'desc')
+            ->get();
+    }
+
     public function getUserTasks(User $user): Collection
     {
         if ($user->role === UserRole::ADMIN) {

@@ -6,8 +6,15 @@ import type { Task, Comment } from "@/types/API";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import Spinner from "../Spinner";
 import { toast } from "sonner";
+import { IconUser, IconTrash } from "@tabler/icons-react";
 
 export default function TaskDetailPage() {
   const { taskId } = useParams<{ taskId: string }>();
@@ -152,40 +159,58 @@ export default function TaskDetailPage() {
                   No comments yet. Be the first to comment!
                 </p>
               ) : (
-                comments.map((comment) => (
-                  <div
-                    key={comment.id}
-                    className="border border-border rounded-lg p-4"
-                  >
-                    <div className="flex justify-between items-start mb-2">
-                      <div className="text-sm text-muted-foreground">
-                        User #{comment.user_id}
-                      </div>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => handleDeleteComment(comment.id)}
-                      >
-                        Delete
-                      </Button>
-                    </div>
-                    <p className="text-foreground whitespace-pre-wrap">
-                      {comment.content}
-                    </p>
-                    {comment.file_path && (
-                      <div className="mt-2">
-                        <a
-                          href={comment.file_path}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-primary hover:underline text-sm"
-                        >
-                          View attachment
-                        </a>
-                      </div>
-                    )}
-                  </div>
-                ))
+                <Accordion type="single" collapsible className="w-full">
+                  {comments.map((comment) => (
+                    <AccordionItem key={comment.id} value={comment.id}>
+                      <AccordionTrigger className="hover:no-underline">
+                        <div className="flex items-center gap-3 flex-1">
+                          <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-semibold">
+                            {comment.user?.name ? (
+                              comment.user.name.charAt(0).toUpperCase()
+                            ) : (
+                              <IconUser size={16} />
+                            )}
+                          </div>
+                          <div className="text-left">
+                            <p className="font-medium">
+                              {comment.user?.name || `User #${comment.user_id}`}
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              {new Date(comment.created_at).toLocaleString()}
+                            </p>
+                          </div>
+                        </div>
+                      </AccordionTrigger>
+                      <AccordionContent>
+                        <div className="pl-11 pt-2">
+                          <p className="text-foreground whitespace-pre-wrap mb-3">
+                            {comment.content}
+                          </p>
+                          {comment.file_path && (
+                            <div className="mb-3">
+                              <a
+                                href={comment.file_path}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-primary hover:underline text-sm"
+                              >
+                                View attachment
+                              </a>
+                            </div>
+                          )}
+                          <Button
+                            variant="destructive"
+                            size="sm"
+                            onClick={() => handleDeleteComment(comment.id)}
+                          >
+                            <IconTrash size={16} className="mr-1" />
+                            Delete
+                          </Button>
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
               )}
             </div>
           </div>

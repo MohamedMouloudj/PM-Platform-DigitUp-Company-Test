@@ -41,8 +41,11 @@ export interface Task {
   priority: TaskPriority;
   status: TaskStatus;
   project_id: string;
+  project?: Project;
   created_by: string;
+  creator?: User;
   assigned_to: string | null;
+  assignedTo?: User;
   deadline: string | null;
   created_at: string;
   updated_at: string;
@@ -53,6 +56,7 @@ export interface Comment {
   content: string;
   task_id: string;
   user_id: string;
+  user?: User;
   file_path: string | null;
   created_at: string;
   updated_at: string;
@@ -65,12 +69,23 @@ export interface Team {
   created_by: string;
   created_at: string;
   updated_at: string;
+  members?: Array<{
+    id: string;
+    team_id: string;
+    user_id: string;
+    user: User;
+    role: string;
+    created_at: string;
+    updated_at: string;
+  }>;
 }
 
 export interface TeamMember {
   id: string;
   team_id: string;
   user_id: string;
+  user: User;
+  role: string;
   created_at: string;
   updated_at: string;
 }

@@ -5,10 +5,12 @@ import type { Project } from "@/types/API";
 import { Button } from "@/components/ui/button";
 import Spinner from "../Spinner";
 import { toast } from "sonner";
+import { usePermission } from "@/components/RoleGuard";
 
 export default function ProjectsPage() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
+  const { canManageProjects } = usePermission();
 
   useEffect(() => {
     loadProjects();
@@ -78,9 +80,11 @@ export default function ProjectsPage() {
     <div className="projects-page">
       <div className="page-header">
         <h1>Projects</h1>
-        <Link to="/dashboard/projects/create">
-          <Button>Create Project</Button>
-        </Link>
+        {canManageProjects() && (
+          <Link to="/dashboard/projects/create">
+            <Button>Create Project</Button>
+          </Link>
+        )}
       </div>
 
       {projects.length === 0 ? (
@@ -97,7 +101,9 @@ export default function ProjectsPage() {
                   {project.status}
                 </span>
               </div>
-              <p className="project-description">{project.description}</p>
+              <p className="project-description truncate whitespace-pre-wrap">
+                {project.description}
+              </p>
               <div className="project-meta">
                 <span className="confidentiality-badge">
                   {project.confidentiality_level}

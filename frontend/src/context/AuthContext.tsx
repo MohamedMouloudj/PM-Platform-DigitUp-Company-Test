@@ -41,15 +41,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const refreshUser = useCallback(async () => {
     try {
-      const response = await AuthService.getCurrentUser();
-      if (response.data.success) {
-        setUser(response.data.data.user);
-      } else {
-        setUser(null);
-      }
+      const user = await AuthService.checkAuth();
+      setUser(user);
     } catch (error: unknown) {
-      // 401 is expected when there's no active session - not an error
       const axiosError = error as AxiosError;
+      // Silently fail on 401 (expected when not authenticated)
       if (axiosError.response?.status !== 401) {
         console.error("Failed to refresh user:", error);
       }
@@ -72,31 +68,66 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, [refreshUser]);
 
   const login = async (data: LoginRequest) => {
-    const response = await AuthService.login(data);
-    if (response.data.success) {
-      setUser(response.data.data.user);
-    } else {
-      throw new Error(response.data.message);
+    try {
+      const response = await AuthService.login(data);
+      if (response.data.success) {
+        setUser(response.data.data.user);
+      } else {
+        throw new Error(response.data.message || "Login failed");
+      }
+    } catch (error: unknown) {
+      const axiosError = error as AxiosError<{
+        message?: string;
+        errors?: Record<string, string[]>;
+      }>;
+
+      if (axiosError.response?.data?.message) {
+        throw new Error(axiosError.response.data.message);
+      } else if (axiosError.message) {
+        throw new Error(axiosError.message);
+      } else {
+        throw new Error("An unexpected error occurred during login");
+      }
     }
   };
 
   const register = async (data: RegisterRequest) => {
-    const response = await AuthService.register(data);
-    if (response.data.success) {
-      setUser(response.data.data.user);
-    } else {
-      throw new Error(response.data.message);
+    try {
+      const response = await AuthService.register(data);
+      console.log(response);
+
+      if (response.data.success) {
+        setUser(response.data.data.user);
+      } else {
+        throw new Error(response.data.message || "Registration failed");
+      }
+    } catch (error: unknown) {
+      const axiosError = error as AxiosError<{
+        message?: string;
+        errors?: Record<string, string[]>;
+      }>;
+
+      if (axiosError.response?.data?.message) {
+        throw new Error(axiosError.response.data.message);
+      } else if (axiosError.response?.data?.errors) {
+        const firstError = Object.values(axiosError.response.data.errors)[0];
+        throw new Error(firstError?.[0] || "Registration failed");
+      } else if (axiosError.message) {
+        throw new Error(axiosError.message);
+      } else {
+        throw new Error("An unexpected error occurred during registration");
+      }
     }
   };
 
   const logout = async () => {
     try {
-      await AuthService.logout();
-    } catch (error) {
-      // Continue with logout even if API call fails
-      console.error("Logout error:", error);
-    } finally {
+      // Clear user state immediately to prevent race conditions
       setUser(null);
+      await AuthService.logout();
+    } catch (error: unknown) {
+      const axiosError = error as AxiosError;
+      console.error("Logout error:", axiosError.message || error);
     }
   };
 

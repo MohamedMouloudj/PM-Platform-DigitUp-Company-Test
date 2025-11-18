@@ -36,7 +36,7 @@ class CommentService
             $data = [
                 'task_id' => $dto->task_id,
                 'content' => $dto->content,
-                'created_by' => $dto->created_by,
+                'user_id' => $dto->user_id,
             ];
 
             // Handle file upload if present
@@ -137,7 +137,7 @@ class CommentService
         }
 
         // Only comment creator can update/delete their own comments
-        if ($comment->created_by !== $user->id) {
+        if ($comment->user_id !== $user->id) {
             throw new AccessDeniedHttpException('You can only modify your own comments');
         }
 

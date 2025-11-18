@@ -1,4 +1,4 @@
-import api from "./api";
+import api from "../lib/api";
 import type {
   ApiResponse,
   Task,
@@ -9,6 +9,10 @@ import type {
 import type { AxiosResponse } from "axios";
 
 export default class TaskService {
+  static async getAllTasks(): Promise<AxiosResponse<ApiResponse<Task[]>>> {
+    return api.get(`/tasks`);
+  }
+
   static async getProjectTasks(
     projectId: string
   ): Promise<AxiosResponse<ApiResponse<Task[]>>> {
