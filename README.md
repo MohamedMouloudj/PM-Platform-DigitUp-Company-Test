@@ -1,5 +1,7 @@
 # PM Platform - Project Management System
 
+This is the technical assessment for the Digitup company interview.
+
 A secure, role-based project management platform built with Laravel 12 and React 19, featuring task tracking, team collaboration, and comprehensive audit logging for enterprise use.
 
 ---
@@ -643,3 +645,4 @@ Controller → Service → Repository → Database
 - **Unauthorized Access**: Service-layer permission checks + role-based middleware
 - **Data Leakage**: Soft deletes, encrypted fields for sensitive data
 - **Security Monitoring**: IP tracking, security alerts, comprehensive audit logs
+
