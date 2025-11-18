@@ -14,6 +14,7 @@ use App\Repositories\Contracts\UserRepositoryInterface;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class AuthService
@@ -58,6 +59,12 @@ class AuthService
             'email' => $dto->email,
             'password' => $dto->password,
         ];
+
+        // Check if user exists
+        $userExists = $this->userRepository->findByEmail($dto->email);
+        if (!$userExists) {
+            throw new AuthenticationException('Invalid credentials');
+        }
 
         if (!Auth::attempt($credentials, $dto->remember)) {
             throw new AuthenticationException('Invalid credentials');

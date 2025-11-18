@@ -26,6 +26,8 @@ Route::prefix('auth')->group(function () {
 // Protected routes
 Route::middleware('auth:sanctum')->group(function () {
 
+    Route::get('tasks', [TaskController::class, 'allTasks']);
+
     Route::apiResource('projects', ProjectController::class);
     Route::post('projects/{id}/archive', [ProjectController::class, 'archive']);
     Route::post('projects/{id}/restore', [ProjectController::class, 'restore']);

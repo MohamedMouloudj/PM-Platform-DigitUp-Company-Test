@@ -18,12 +18,12 @@ class Comment extends Model
 
     protected $fillable = [
         'task_id',
+        'user_id',
         'content',
         'file_path',
         'file_name',
         'file_mime_type',
         'file_size',
-        'created_by',
     ];
 
     protected function casts(): array
@@ -49,6 +49,6 @@ class Comment extends Model
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'created_by');
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

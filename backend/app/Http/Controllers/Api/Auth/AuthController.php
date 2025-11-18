@@ -12,6 +12,7 @@ use App\Http\Requests\Auth\RegisterRequest;
 use App\Services\Auth\AuthService;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -73,8 +74,8 @@ class AuthController extends Controller
         } catch (AuthenticationException $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Login failed',
-                'errors' => ['email' => ['Invalid credentials']],
+                'message' => 'Invalid email or password',
+                'errors' => ['email' => ['The provided credentials are incorrect.']],
             ], 401);
         } catch (\Exception $e) {
             return response()->json([
