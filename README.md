@@ -131,7 +131,7 @@ erDiagram
     teams ||--o{ project_teams : "team_id"
 
     users {
-        bigint id PK
+        uuid id PK
         varchar name
         varchar email UK
         varchar password
@@ -147,7 +147,7 @@ erDiagram
     }
 
     projects {
-        bigint id PK
+        uuid id PK
         varchar name
         text description "encrypted_if_confidential"
         enum status "active,archived"
@@ -159,7 +159,7 @@ erDiagram
     }
 
     tasks {
-        bigint id PK
+        uuid id PK
         bigint project_id FK
         varchar title
         text description "XSS_sanitized"
@@ -174,7 +174,7 @@ erDiagram
     }
 
     teams {
-        bigint id PK
+        uuid id PK
         varchar name
         text description
         bigint created_by FK
@@ -184,7 +184,7 @@ erDiagram
     }
 
     comments {
-        bigint id PK
+        uuid id PK
         bigint task_id FK
         bigint user_id FK
         text content "XSS_sanitized|mentions"
@@ -198,7 +198,7 @@ erDiagram
     }
 
     team_members {
-        bigint id PK
+        uuid id PK
         bigint team_id FK
         bigint user_id FK
         varchar role "team_specific_role"
@@ -208,7 +208,7 @@ erDiagram
     }
 
     project_teams {
-        bigint id PK
+        uuid id PK
         bigint project_id FK
         bigint team_id FK
         timestamp assigned_at
@@ -216,7 +216,7 @@ erDiagram
     }
 
     project_permissions {
-        bigint id PK
+        uuid id PK
         bigint project_id FK
         bigint user_id FK
         enum permission "read,write,delete,manage"
@@ -226,7 +226,7 @@ erDiagram
     }
 
     activity_log {
-        bigint id PK "spatie/laravel-activitylog"
+        uuid id PK "spatie/laravel-activitylog"
         varchar log_name
         text description
         bigint subject_id
@@ -241,7 +241,7 @@ erDiagram
     }
 
     security_alerts {
-        bigint id PK
+        uuid id PK
         bigint user_id FK
         enum alert_type "suspicious_login,new_location,multiple_failed_attempts,rate_limit_exceeded"
         enum severity "low,medium,high,critical"
@@ -255,7 +255,7 @@ erDiagram
     }
 
     file_validations {
-        bigint id PK
+        uuid id PK
         varchar file_path
         varchar original_name
         varchar mime_type
