@@ -170,11 +170,287 @@
 
 @layer components {
   .app-main {
-    min-height: calc(100vh - 64px);
+    min-height: 100vh;
+  }
+
+  /* Auth Pages */
+  .login-page,
+  .register-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background-color: var(--color-background-light);
+  }
+
+  .login-container,
+  .register-container {
     width: 100%;
+    max-width: 28rem;
+  }
+
+  .login-card,
+  .register-card {
+    background: var(--color-background-white);
+    padding: 2rem;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border-light);
+  }
+
+  .login-title,
+  .register-title {
+    font-size: 1.875rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--color-text-dark);
+  }
+
+  .login-subtitle,
+  .register-subtitle {
+    color: var(--color-text-medium);
+    margin-bottom: 1.5rem;
+  }
+
+  .login-form,
+  .register-form {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
-    padding-top: 1.5rem;
+    gap: 1rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .form-group-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-size: 0.875rem;
+  }
+
+  .field-error {
+    color: var(--color-destructive);
+    font-size: 0.875rem;
+  }
+
+  .error-message {
+    background-color: oklch(0.95 0.05 27);
+    color: var(--color-destructive);
+    padding: 0.75rem;
+    border-radius: var(--radius-md);
+    margin-bottom: 1rem;
+    border: 1px solid var(--color-destructive);
+  }
+
+  .auth-footer {
+    margin-top: 1.5rem;
+    text-align: center;
+    font-size: 0.875rem;
+    color: var(--color-text-medium);
+  }
+
+  .auth-link {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .auth-link:hover {
+    text-decoration: underline;
+  }
+
+  .submit-button {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+
+  .form-select {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-md);
+    background-color: var(--color-background-white);
+    font-size: 0.875rem;
+  }
+
+  .form-select:focus {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 2px;
+  }
+
+  /* Dashboard */
+  .dashboard-home {
+    padding: 2rem;
+  }
+
+  .dashboard-header {
+    margin-bottom: 2rem;
+  }
+
+  .dashboard-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-text-dark);
+  }
+
+  .dashboard-subtitle {
+    color: var(--color-text-medium);
+    margin-top: 0.5rem;
+  }
+
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+    gap: 1.5rem;
+  }
+
+  .dashboard-card {
+    padding: 1.5rem;
+    background: var(--color-background-white);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    color: var(--color-text-dark);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .dashboard-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .dashboard-card h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .dashboard-card p {
+    color: var(--color-text-medium);
+    font-size: 0.875rem;
+  }
+
+  /* Projects */
+  .projects-page,
+  .create-project-page {
+    padding: 2rem;
+  }
+
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+
+  .page-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-text-dark);
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+    gap: 1.5rem;
+  }
+
+  .project-card {
+    background: var(--color-background-white);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+  }
+
+  .project-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 1rem;
+  }
+
+  .project-card-header h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-text-dark);
+  }
+
+  .badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  .badge-active {
+    background-color: oklch(0.9 0.05 145);
+    color: oklch(0.3 0.15 145);
+  }
+
+  .badge-archived {
+    background-color: oklch(0.9 0.02 250);
+    color: oklch(0.4 0.05 250);
+  }
+
+  .project-description {
+    color: var(--color-text-medium);
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+  }
+
+  .project-meta {
+    margin-bottom: 1rem;
+  }
+
+  .confidentiality-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background-color: var(--color-secondary-100);
+    color: var(--color-text-dark);
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: capitalize;
+  }
+
+  .project-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--color-text-medium);
+  }
+
+  /* Forms */
+  .project-form {
+    max-width: 42rem;
+    background: var(--color-background-white);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin-top: 1.5rem;
   }
 }

@@ -1,17 +1,9 @@
 import { AppSidebar } from "@/components/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import { Navigate, Outlet } from "react-router";
-import Spinner from "../Spinner";
+import { Outlet } from "react-router";
 
 export default function DashboardLayout() {
-  //   if (isLoading) {
-  //     return <Spinner />;
-  //   }
-
-  //   if (!isAuthenticated) {
-  //     return <Navigate to="/admin-panel/login" replace />;
-  //   }
   return (
     <div id="admin-panel">
       <SidebarProvider
