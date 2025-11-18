@@ -101,7 +101,6 @@ export const grantPermissionSchema = z.object({
   permission: z.enum(["read", "write", "delete", "manage"]),
 });
 
-// Type exports from schemas
 export type LoginFormData = z.infer<typeof loginSchema>;
 export type RegisterFormData = z.infer<typeof registerSchema>;
 export type CreateProjectFormData = z.infer<typeof createProjectSchema>;
