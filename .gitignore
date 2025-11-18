@@ -1,0 +1,8 @@
+.env
+.env.local
+.env.production
+/storage/*.key
+/vendor
+/node_modules
+*instructions.*
+.DS_Store
